@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta property="og:title" content="Claude + Luna outreach workflow">
+<meta property="og:description" content="The 5-minute setup from the reel. Luna is free for 14 days.">
+<title>Luna Outreach Workflow</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: one narrow reading column. Trial callout first and loudest, then the setup steps, then what else Luna does. */
+:root{
+  --bg:#0b1720; --card:#13222e; --line:rgba(234,241,246,.12);
+  --fg:#eaf1f6; --muted:#9fb0bd; --amber:#ffca85; --amber-deep:#e59a3c; --on-amber:#1a1206;
+  --code:#081119;
+  --display:"Fraunces",Georgia,serif; --body:"Inter",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
+  --bg:#f4f7fa; --card:#ffffff; --line:rgba(14,27,38,.12);
+  --fg:#0e1b26; --muted:#52626f; --amber:#8f5a1e; --amber-deep:#b8742c; --on-amber:#fff8ef;
+  --code:#eef2f6; color-scheme:light;
+}}
+:root[data-theme="light"]{
+  --bg:#f4f7fa; --card:#ffffff; --line:rgba(14,27,38,.12);
+  --fg:#0e1b26; --muted:#52626f; --amber:#8f5a1e; --amber-deep:#b8742c; --on-amber:#fff8ef;
+  --code:#eef2f6; color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px 64px}
+main{max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+.brand{display:flex;align-items:center;gap:10px;font:600 20px var(--display);letter-spacing:.04em}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--amber);box-shadow:0 0 14px var(--amber)}
+.label{font:500 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font:400 clamp(34px,7vw,52px)/1.08 var(--display);margin:8px 0 12px;text-wrap:balance}
+h1 em{color:var(--amber)}
+h2{font:600 24px/1.2 var(--display);margin:0 0 6px;text-wrap:balance}
+p{margin:0}
+.lede{color:var(--muted);font-size:18px}
+
+.trial{border:2px solid var(--amber);border-radius:18px;padding:28px 24px;background:color-mix(in srgb,var(--amber) 9%,var(--card));display:flex;flex-direction:column;gap:14px}
+.trial .big{font:600 clamp(28px,6vw,40px)/1.1 var(--display);text-wrap:balance}
+.trial .big span{color:var(--amber)}
+.trial p{font-size:17px}
+.btn{display:inline-block;align-self:flex-start;background:var(--amber);color:var(--on-amber);font:600 17px var(--body);padding:14px 26px;border-radius:999px;text-decoration:none}
+.btn:focus-visible,button:focus-visible{outline:3px solid var(--fg);outline-offset:3px}
+
+ol.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:28px;counter-reset:s}
+ol.steps>li{counter-increment:s;display:grid;grid-template-columns:40px minmax(0,1fr);gap:14px}
+ol.steps>li::before{content:counter(s);font:600 18px var(--display);width:36px;height:36px;border-radius:50%;border:1px solid var(--amber);color:var(--amber);display:grid;place-items:center}
+.step{min-width:0;display:flex;flex-direction:column;gap:10px}
+.step h3{font:600 19px/1.3 var(--body);margin:4px 0 0}
+.step p{color:var(--muted)}
+.step a{color:var(--amber)}
+.note{font-size:15px;border-left:2px solid var(--amber);padding-left:12px;color:var(--fg)}
+
+.prompt{background:var(--code);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.prompt header{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line)}
+.prompt pre{margin:0;padding:14px;font:13.5px/1.6 var(--mono);white-space:pre-wrap;word-break:break-word;color:var(--fg)}
+.prompt button{font:500 13px var(--body);background:transparent;color:var(--amber);border:1px solid var(--amber);border-radius:999px;padding:5px 14px;cursor:pointer}
+code{font:13.5px var(--mono);background:var(--code);padding:2px 6px;border-radius:6px}
+
+.more{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px;margin:16px 0 0;padding:0;list-style:none}
+.more li{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.more b{display:block;font-weight:600;margin-bottom:2px}
+.more span{color:var(--muted);font-size:15px}
+.final{text-align:left;display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--line);padding-top:32px}
+</style>
+</head>
+<body>
+
+<main>
+  <div class="brand"><span class="dot"></span>LUNA</div>
+
+  <section>
+    <div class="label">The workflow from the reel</div>
+    <h1>Claude + Luna run your LinkedIn outreach. <em>Setup takes 5 minutes.</em></h1>
+    <p class="lede">Luna already knows your company, so she picks who to reach, filters out who doesn't fit, and writes every connection note. Claude opens Sales Navigator and sends them.</p>
+  </section>
+
+  <section class="trial" aria-label="Free trial">
+    <div class="label" style="color:var(--amber)">Read this before you sign up</div>
+    <div class="big">You'll see a payment screen. <span>Luna is completely free for 14 days.</span></div>
+    <p>That screen is just the start of your free trial. Go through it and you get the full product for 14 days, free. It works really well, so give it a proper try.</p>
+    <a class="btn" href="https://letluna.com" target="_blank" rel="noopener">Start free on letluna.com</a>
+  </section>
+
+  <section>
+    <h2>The setup</h2>
+    <p class="lede" style="margin-bottom:24px">Do these once. After that it runs every day.</p>
+    <ol class="steps">
+      <li><div class="step">
+        <h3>Get onto Luna</h3>
+        <p>Sign up at <a href="https://letluna.com" target="_blank" rel="noopener">letluna.com</a>. When the payment screen shows up, keep going: it's your 14-day free trial.</p>
+      </div></li>
+
+      <li><div class="step">
+        <h3>Connect your accounts</h3>
+        <p>Connect LinkedIn, Gmail and anything else you work in. This is how Luna learns your company: what you sell, who buys it, how you talk.</p>
+      </div></li>
+
+      <li><div class="step">
+        <h3>Open a chat in Luna and paste this</h3>
+        <p>Name the chat something like "ICP outreach" so Claude can find it later.</p>
+        <div class="prompt"><header><span class="label">Paste into Luna</span><button type="button" data-copy="p1">Copy</button></header>
+<pre id="p1">You know my company. Build my ICP and positioning for LinkedIn outreach.
+
+Give me:
+1. Who to target and why they need us
+2. The exact Sales Navigator filters (job title, seniority, industry, geography, company headcount, keywords)
+3. Who to exclude
+4. A personal connection note for each person, under 300 characters, in my voice
+
+Keep everything in this chat.</pre></div>
+      </div></li>
+
+      <li><div class="step">
+        <h3>Give Claude a browser</h3>
+        <p>Install the Claude in Chrome extension. If you use Claude Code, start it with <code>claude --chrome</code>. Log in to LinkedIn Sales Navigator and Luna in that same Chrome.</p>
+      </div></li>
+
+      <li><div class="step">
+        <h3>Paste this into Claude</h3>
+        <div class="prompt"><header><span class="label">Paste into Claude</span><button type="button" data-copy="p2">Copy</button></header>
+<pre id="p2">Open https://letluna.com/dashboard and open my Luna chat called "ICP outreach". Read the ICP, the Sales Navigator filters and the connection notes Luna wrote.
+
+Then open https://www.linkedin.com/sales/search/people?viewAllFilters=true and apply exactly those filters.
+
+For each person who matches, send a connection request with the note Luna wrote for them. Skip anyone already connected or pending. If anything is unclear, ask Luna in that same chat.
+
+Stop at 20 requests and give me a list of who you sent to.</pre></div>
+        <p class="note">Keep it around 20 a day. LinkedIn limits how many invites you can send in a week, and a slower pace keeps your account safe.</p>
+      </div></li>
+
+      <li><div class="step">
+        <h3>Watch it run</h3>
+        <p>Claude reads Luna's plan, opens Sales Navigator and sends each note. Run step 5 again tomorrow for the next batch.</p>
+      </div></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Outreach is one thing. Here's what else Luna does.</h2>
+    <ul class="more">
+      <li><b>Finds every thread you owe</b><span>Reads your conversations overnight and flags who is still waiting on you.</span></li>
+      <li><b>Follow-ups ready to approve</b><span>Drafted from what was actually said, in your voice.</span></li>
+      <li><b>Meeting briefs</b><span>Who you're meeting, your history with them, and what you promised.</span></li>
+      <li><b>A brief before you wake up</b><span>What changed overnight and what needs you today.</span></li>
+      <li><b>Books the meeting</b><span>Works with Google Calendar and Calendly.</span></li>
+      <li><b>Nothing sends without your yes</b><span>You stay in control of every message.</span></li>
+    </ul>
+  </section>
+
+  <section class="final">
+    <div class="big" style="font:600 clamp(26px,5.5vw,36px)/1.15 var(--display)">Just get onto Luna. <span style="color:var(--amber)">The first 14 days are free.</span></div>
+    <p class="lede">The payment screen is the start of the trial. Go through it and try the full product.</p>
+    <a class="btn" href="https://letluna.com" target="_blank" rel="noopener">Start free on letluna.com</a>
+  </section>
+</main>
+
+<script>
+document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',()=>{
+  const el=document.getElementById(b.dataset.copy);
+  const done=()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1600)};
+  navigator.clipboard.writeText(el.textContent).then(done).catch(()=>{
+    const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected, press Ctrl+C';
+  });
+}));
+</script>
+</body>
+</html>
